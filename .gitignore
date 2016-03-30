@@ -1,0 +1,13 @@
+*.
+*.swp
+*.bak
+*~
+*.~ml
+*.orig
+.DS_Store
+
+npm-debug.log
+
+node_modules
+lib
+logs
