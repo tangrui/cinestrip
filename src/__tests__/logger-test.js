@@ -24,7 +24,5 @@ describe('logger', () => {
     expect(options.src).toBe(false)
     expect(options.name).toBe(loggerName)
     expect(options.level).toBe(loggerLevel)
-    expect(options.streams[0].level).toBe('info')
-    expect(options.streams[1].level).toBe('error')
   })
 })
