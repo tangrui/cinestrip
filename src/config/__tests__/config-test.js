@@ -23,12 +23,12 @@ describe('config', () => {
       {file: path.join(appPath, 'config', 'test.json')}
     ])
     expect(config.file.mock.calls[1]).toEqual([
-      'sys_env',
-      {file: path.join(__dirname, '..', 'test.json')}
-    ])
-    expect(config.file.mock.calls[2]).toEqual([
       'app_default',
       {file: path.join(appPath, 'config', 'default.json')}
+    ])
+    expect(config.file.mock.calls[2]).toEqual([
+      'sys_env',
+      {file: path.join(__dirname, '..', 'test.json')}
     ])
     expect(config.file.mock.calls[3]).toEqual([
       'sys_default',
