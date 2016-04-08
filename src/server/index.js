@@ -1,6 +1,6 @@
 import path from 'path'
 
-import koa from 'koa'
+import Koa from 'koa'
 import PrettyError from 'pretty-error'
 
 import config from '../config'
@@ -15,7 +15,7 @@ const hooks = [
   'etag'
 ]
 
-const app = koa()
+const app = new Koa()
 
 hooks.forEach(hookName => {
   const hookPath = path.resolve(__dirname, 'hooks', hookName)
