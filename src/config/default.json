@@ -3,5 +3,18 @@
   "port": 4100,
   "log": {
     "level": "info"
+  },
+  "hooks": {
+    "i18n": {
+      "locales": ["zh-CN", "en"],
+      "modes": [
+        "query",
+        "subdomain",
+        "cookie",
+        "header",
+        "url",
+        "tld"
+      ]
+    }
   }
 }

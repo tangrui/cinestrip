@@ -9,6 +9,7 @@ import config from '../../config'
 export default (app) => {
   const options = {
     directory: path.join(config.get('appPath'), 'locales'),
+    extension: '.json'
   }
 
   locale(app)
