@@ -11,6 +11,7 @@ logger.debug({config: config.get()})
 const hooks = [
   'global-error-handler',
   'i18n',
+  'request-logger',
   'body-parser',
   'etag'
 ]
