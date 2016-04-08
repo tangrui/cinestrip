@@ -1,5 +1,6 @@
 {
   "name": "Cinestrip",
+  "port": 4100,
   "log": {
     "level": "info"
   }
