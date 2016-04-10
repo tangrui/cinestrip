@@ -1,0 +1,9 @@
+{
+  "threshold": 20,
+  "identifiers": false,
+  "matches": 2,
+  "ignore": "__tests__|__mocks__",
+  "jsx": true,
+  "reporter": "default",
+  "suppress": 100
+}
