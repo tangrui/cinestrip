@@ -34,7 +34,10 @@
     "test": "BABEL_JEST_STAGE=0 NODE_ENV=test jest",
     "check": "npm run lint && npm run test",
     "precommit": "npm run check",
-    "prepush": "npm run check"
+    "prepush": "npm run check",
+    "metrics:clean": "rm -r metrics",
+    "metrics:report": "plato -r -d metrics lib",
+    "metrics": "npm run compile && npm run metrics:report"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
