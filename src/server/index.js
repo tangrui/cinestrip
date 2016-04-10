@@ -9,6 +9,7 @@ import logger from '../logger'
 logger.debug({config: config.get()})
 
 const hooks = [
+  'response-time',
   'global-error-handler',
   'i18n',
   'request-logger',
