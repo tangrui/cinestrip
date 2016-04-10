@@ -32,7 +32,9 @@
     "check": "npm run lint && npm run test",
     "clean": "rm -rf lib",
     "copy": "mkdir -p lib/config && cp src/config/*.json lib/config",
-    "compile": "babel -d lib src"
+    "compile": "babel -d lib src",
+    "precommit": "npm run check",
+    "prepush": "npm run check"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
@@ -78,6 +80,7 @@
     "eslint-plugin-babel": "^3.2.0",
     "eslint-plugin-import": "^1.3.0",
     "eslint-plugin-react": "^4.3.0",
+    "husky": "^0.11.4",
     "jest-cli": "^0.10.0"
   }
 }
