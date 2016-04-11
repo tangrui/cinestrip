@@ -28,7 +28,7 @@
   "scripts": {
     "compile:clean": "rm -r lib",
     "compile:copy": "mkdir -p lib/config && cp src/config/*.json lib/config",
-    "compile": "babel -d lib src",
+    "compile": "babel src --out-dir lib --source-maps",
     "prepublish": "npm run compile:clean && npm run compile:copy && npm run compile",
     "lint": "eslint src",
     "test": "BABEL_JEST_STAGE=0 NODE_ENV=test jest",
