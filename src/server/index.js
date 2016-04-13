@@ -5,6 +5,7 @@ import PrettyError from 'pretty-error'
 
 import config from '../config'
 import logger from '../logger'
+import './sketch-repository'
 
 logger.debug({config: config.get()})
 
