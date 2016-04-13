@@ -5,36 +5,53 @@ import PrettyError from 'pretty-error'
 
 import config from '../config'
 import logger from '../logger'
-import './sketch-repository'
+import SketchRepository from './sketch-repository'
 
-logger.debug({config: config.get()})
+class Server {
+  static hooks = [
+    'response-time',
+    'global-error-handler',
+    'i18n',
+    'request-logger',
+    'body-parser',
+    'etag'
+  ]
 
-const hooks = [
-  'response-time',
-  'global-error-handler',
-  'i18n',
-  'request-logger',
-  'body-parser',
-  'etag'
-]
-
-const app = new Koa()
-
-hooks.forEach(hookName => {
-  const hookPath = path.resolve(__dirname, 'hooks', hookName)
-  const hook = require(hookPath).default
-  logger.info('loading hook %s...', hookName)
-  hook(app)
-})
-
-app.listen(config.get('port'), (err) => {
-  if (err) {
-    const pretty = new PrettyError()
-    logger.error(pretty.render(err))
-    return
+  constructor() {
+    this.app = new Koa()
+    this.sketchRepository = new SketchRepository()
   }
 
-  logger.info('%s server is listening on port %d.', config.get('name'), config.get('port'))
+  start() {
+    logger.debug({config: config.get()})
+
+    this.sketchRepository.init()
+
+    Server.hooks.forEach(hookName => {
+      const hookPath = path.resolve(__dirname, 'hooks', hookName)
+      const hook = require(hookPath).default
+      logger.info('loading hook %s...', hookName)
+      hook(this.app)
+    })
+
+    this.app.listen(config.get('port'), (err) => {
+      if (err) {
+        const pretty = new PrettyError()
+        logger.error(pretty.render(err))
+        process.exit()
+      }
+
+      logger.info('Server is listening on port %d.', config.get('port'))
+    })
+  }
+}
+
+const server = new Server()
+server.start()
+
+process.on('SIGINT', () => {
+  logger.info('Gracefully shut down from SIGINT (Ctrl-C).')
+  process.exit()
 })
 
-export default app
+export default server

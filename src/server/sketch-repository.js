@@ -7,7 +7,7 @@ import config from '../config'
 import logger from '../logger'
 import Sketch from './sketch'
 
-class SketchRepository extends Map {
+export default class SketchRepository extends Map {
 
   _parseSketches(modulePaths, isFromNpm) {
     modulePaths.forEach(modulePath => {
@@ -56,8 +56,3 @@ class SketchRepository extends Map {
     this._loadSketches('local')
   }
 }
-
-const sketchRepository = new SketchRepository()
-sketchRepository.init()
-
-export default sketchRepository
