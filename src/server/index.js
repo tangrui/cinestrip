@@ -47,11 +47,5 @@ class Server {
 }
 
 const server = new Server()
-server.start()
-
-process.on('SIGINT', () => {
-  logger.info('Gracefully shut down from SIGINT (Ctrl-C).')
-  process.exit()
-})
 
 export default server
