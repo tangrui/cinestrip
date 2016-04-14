@@ -9,7 +9,7 @@ import Sketch from './sketch'
 
 export default class SketchRepository extends Map {
 
-  _parseSketches(modulePaths, isFromNpm) {
+  _parseSketches(modulePaths, sketchType) {
     modulePaths.forEach(modulePath => {
       const sketchJsonFilePath = path.join(modulePath, 'sketch.json')
       if (fs.existsSync(sketchJsonFilePath)) {
@@ -18,7 +18,7 @@ export default class SketchRepository extends Map {
         logger.info('loading sketch %s...', sketchConfig.name)
 
         const sketch = new Sketch(sketchConfig)
-        sketch.isNpmSkech = isFromNpm
+        sketch.sketchType = sketchType
         this.set(sketch.name, sketch)
       }
     })
@@ -26,15 +26,20 @@ export default class SketchRepository extends Map {
 
   _loadSketches(sketchType) {
     const folderMapping = {
-      npm: 'node_modules',
-      local: 'sketches'
+      [Sketch.TYPE_NPM]: 'node_modules',
+      [Sketch.TYPE_LOCAL]: 'sketches'
+    }
+
+    const configMapping = {
+      [Sketch.TYPE_NPM]: 'npmSketches',
+      [Sketch.TYPE_LOCAL]: 'localSketches'
     }
 
     const sketchFolder = path.join(config.get('appPath'), folderMapping[sketchType])
-    const sketchNames = config.get(`${sketchType}Sketches`)
+    const sketchNames = config.get(configMapping[sketchType])
     if (sketchNames === 'auto') {
-      logger.info('Automatically load all sketches from %s.', folderMapping[sketchType])
-      this._parseSketches(fs.listSync(sketchFolder), true)
+      logger.info('Automatically load all sketches from %s.', sketchFolder)
+      this._parseSketches(fs.listSync(sketchFolder), sketchType)
     } else if (isArray(sketchNames)) {
       logger.info(
         'Load all sketches from %s according to "%sSketches" config.',
@@ -42,17 +47,17 @@ export default class SketchRepository extends Map {
         sketchType
       )
       this._parseSketches(
-        sketchNames.map(name => path.join(sketchFolder, name)), true
+        sketchNames.map(name => path.join(sketchFolder, name)), sketchType
       )
     } else {
-      logger.warn('Missing or invalid "%sSketches" config, skip loading.', sketchType)
+      logger.warn('Missing or invalid "%s" config, skip loading.', configMapping[sketchType])
     }
   }
 
   init() {
     logger.info('Initializing sketch repository...')
 
-    this._loadSketches('npm')
-    this._loadSketches('local')
+    this._loadSketches(Sketch.TYPE_NPM)
+    this._loadSketches(Sketch.TYPE_LOCAL)
   }
 }
